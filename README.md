@@ -7,7 +7,7 @@
 * Pytorch API
 * 神经网络的有监督训练
 * 梯度下降算法
-* 
+* 项目实战：鸢尾花分类模型
 
 ## 神经网络
 Wiki百科
@@ -60,11 +60,23 @@ loss = 1/2(y-y0)^2
 将损失减少到最小
 
 ## 神经网络训练API
-1. DataLoader
-2.
+1. DataSet
+
+* DataLoader 自定义加载数据集
+* API官方数据集加载
+
+2. Model: NN
+
+3. Prediction
+
+~lose function(API) -> 求导 -> 梯度 -> Model
+
+4. Label
+
 
 ```python
-loss = nn.CrossEntropyLoss()
-loss.backward()
-optimizer.step()
+loss = nn.CrossEntropyLoss() # 交叉商损失
+loss.backward() # 对损失函数求导
+optimizer.step() # 梯度下降,更新权重、偏执
 ```
+
