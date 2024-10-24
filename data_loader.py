@@ -2,7 +2,7 @@
 Author: JeffreyZhu 1624410543@qq.com
 Date: 2024-10-24 17:00:24
 LastEditors: JeffreyZhu 1624410543@qq.com
-LastEditTime: 2024-10-24 18:24:12
+LastEditTime: 2024-10-24 18:27:16
 FilePath: \PytorchDeepLearningGuidance\data_loader.py
 Description: File Description Here...
 
@@ -45,7 +45,9 @@ class iris_dataloader(Dataset):
         self.label = torch.from_numpy(np.array(label,dtype="int64"))
         # 将float32,int类型转换为torch需要的Tensor类型
         
-
+        self.data_num = len(data)
+        print("The length of dataset is " + self.data_num)
     
+
 
 
