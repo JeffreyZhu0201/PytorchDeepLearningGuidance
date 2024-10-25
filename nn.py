@@ -33,7 +33,7 @@ class NN(nn.Module):
         return x
         
 #定义计算环境,不管电脑是cpu还是gpu都可以运行
-device = torch.device("cuda:0 " if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # 训练集 验证集 测试集 -> 反应模型的性能
 # 导入训练集数据
@@ -83,6 +83,6 @@ def main(lr = 0.005,epochs = 20):
     pg = [p for p in model.parameters() if p.requires_grad]
     # p 为所有可训练参数
 
-    
+
 
 
