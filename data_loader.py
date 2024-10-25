@@ -18,7 +18,7 @@ import torch
 '''
 Class: iris_dataloader
 Description: 自定义导入数据集
-Input: 
+Input: 继承Dataset父类
 @params: data_path 数据集文件
 Output: None
 Return: void
@@ -48,6 +48,22 @@ class iris_dataloader(Dataset):
         self.data_num = len(data)
         print("The length of dataset is " + self.data_num)
     
+    '''
+    Function: __len__
+    Description: pytorch 规定必须继承，返回数据集长度
+    Input: none
+    Output: data,lebel
+    Return: void
+    param {*} self
+    '''
+    def __len__(self):
+        return self.data_number
+
+    def __getitem__(self, index):
+        self.data = list(self.data) # 用列表封装
+        self.label = list(self.label)
+
+        return self.data[index], self.label[index]
 
 
 
