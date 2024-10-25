@@ -36,10 +36,26 @@ class NN(nn.Module):
 #定义计算环境,不管电脑是cpu还是gpu都可以运行
 device = torch.device("cuda:0 " if torch.cuda.is_available() else "cpu")
 
-# 训练集 验证集 测试集
+# 训练集 验证集 测试集 -> 反应模型的性能
 
+# 导入训练集数据
+custom_dataset = iris_dataloader("./PytorchDeepLearningGuidance/")
 
+train_size = int(len(custom_dataset) * 0.7)                  #定义训练集数据长度
+val_size = int(len(custom_dataset) * 0.2)                    #定义验证集数据长度
+test_size = int(len(custom_dataset) - train_size - val_size) #定义验证集数据长度
 
+# 将数据集按长度分割
+train_dataset,val_dataset,test_dataset = torch.utils.data.random_split(custom_dataset,[train_size,val_size,test_size])
 
+# 批量封装，数据集划分和加载
+# batch_size:定义一次训练大小，批量大小;shuffle:是否下次批量训练时是否打散
+train_loader = DataLoader(train_dataset,batch_size=16,shuffle=True) 
+
+val_loader = DataLoader(val_dataset,batch_size=1,shuffle=False) 
+
+test_loader = DataLoader(test_dataset,batch_size=1,shuffle=False) 
+
+print("训练集大小: ",len(train_loader)*16,"验证集大小: ",len(val_loader),"测试集大小: ",len(test_loader))
 
 
