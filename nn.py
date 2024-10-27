@@ -1,3 +1,13 @@
+'''
+Author: JeffreyZhu 1624410543@qq.com
+Date: 2024-10-25 10:41:28
+LastEditors: JeffreyZhu 1624410543@qq.com
+LastEditTime: 2024-10-27 11:53:11
+FilePath: \PytorchDeepLearningGuidance\nn.py
+Description: File Description Here...
+
+Copyright (c) 2024 by JeffreyZhu, All Rights Reserved. 
+'''
 import os
 import sys
 from torch.utils.data import DataLoader
@@ -83,6 +93,67 @@ def main(lr = 0.005,epochs = 20):
     pg = [p for p in model.parameters() if p.requires_grad]
     # p 为所有可训练参数
 
+    optimizer = torch.Adams(pg,lr=lr)
+
+    save_path = os.path.join(os.getcwd(),"result/weights")
+
+    if os.path.exists(save_path) is False:
+        os.mkdir(save_path)
+
+
+    for epoch in epochs:
+        model.train()
+
+        acc_num = torch.zero(1).to(device)
+
+        sample_num = 0
+
+        train_bar = tqdm(train_loader,file = sys.stdout,ncols=100)
+
+        for datas in train_bar:
+            data,label = datas
+
+            label = label.squeeze(-1)
+
+            sample_num += data.shape[0]
+
+            optimizer.zero_grad() # 清零优化器（初始化）
+
+            outputs = model(data.to(device))
+
+            pred_class = torch.max(outputs,dim=1)[1] 
+            # max返回值是一个元组，第一个元素是max的值，第二个是max值得索引
+
+            acc_num += torch.eq(pred_class,label.to(device)).sum()
+
+            loss = loss_f(outputs,label.to(device))
+            loss.backward()
+
+            optimizer.step()
+
+            train_acc = acc_num /sample_num
+
+            train_bar = "train epoch [{}/{}] loss:{:.3f}".format(epoch+1,epochs)
+
+        val_acc = infer(model,val_loader,device)
+
+        print("train epoch [{}/{}] loss:{:.3f} val_acc:{:.3f}".format(epoch+1,epochs,val_acc))
+
+        torch.save(model.state_dict(),os.path.join(save_path,"nn.pth"))
+
+        #每次数据集迭代之后对初始化指标清零
+
+        train_acc = 0.
+        val_acc = 0.
+
+    print("Train finished")
+
+    test_acc = infer(model,test_dataset,device)
+
+    print("test_acc: " ,test_acc)
+
+if __name__ == "__main__":
+    main()
 
 
 
