@@ -15,7 +15,7 @@ from tqdm import tqdm   # 进度条
 import torch
 import torch.nn as nn
 import torch.optim as optim # 完成梯度下降算法
-from data_loader import iris_dataloader
+from example.data_loader import iris_dataloader
 
 # 初始化神经网络模型
 class NN(nn.Module):
